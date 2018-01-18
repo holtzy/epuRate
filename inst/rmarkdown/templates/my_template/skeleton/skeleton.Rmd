@@ -1,0 +1,168 @@
+---
+title: "Cognitive data in the UKB"
+author: "by [Yan Holtz](https://github.com/holtzy/) - `r format(Sys.time(), '%d %B %Y')`"
+output:
+  html_document:
+    theme: lumen
+    css: style.css
+    toc: false
+    toc_float: true
+    toc_depth: 2
+    number_sections: true
+    df_print: paged
+    code_folding: hide
+    includes:
+      after_body: footer.html
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+  
+```{r echo=FALSE}
+# Just to add space between the introduction of the document
+knitr::asis_output(htmltools::htmlPreserve("<br><br>"))
+```
+
+
+> This document describe 5 cognitive variables of the UKBiobank dataset: Reasoning (f-20016), Reaction time ('RT', f-20023), Numeric memory (f-4282), Visual memory (f-399), Prospective memory (f-20018). A PCA is also performed in order to create a G value that summarizes them, as proposed in [Lyall et al.](http://journals.plos.org/plosone/article?id=10.1371/journal.pone.0154222)
+
+
+# Get the data
+***
+First of all, I need to load several libraries that will be usefull for our analysis.
+```{r, message=FALSE, warning=FALSE}
+library(tidyverse)
+library(gridExtra)
+library(FactoMineR)
+```
+
+The UKB dataset is stored in the QBI cluster and thus currently accessible via Inode only. I use a bash command line to recover several fields: id, height, sex, BMI, and the 5 cognitive variables.
+This file had already been created for Julanne the 11/10/2017. I keep only 50k random lines to have a lighter dataset.
+```{r, eval=FALSE}
+# Go to Julanne folder
+cd /ibscratch/wrayvisscher/Yan_Holtz/6_JULANNE_THESIS
+
+# Take the interesting columns
+zcat /references/UKBiobank/pheno/download/9280_12505_UKBiobank.tab.gz | cut -f1,2529,2530,2531,3587,2544,2545,2546,2532,2533,2534,163,164,166,167,169,170,171,3452,3453,3454,784,4059,3570,3589,3568,3569,4064,4065,4081,4075,4076,4077,4066,4067,4068,4087,25,9,8,4083,26,27,28,3429,3430,3431,3432,3433,3434,3435,150,151,152,4069,4070,4071,3439,3440,3441,3438,7064,8487,8488,8489,8490,8491,8492,8493,8494,8495,8496,8497,8498,8499,8500,8501,6008,6009,6010,5896,5897,5898,5899,5900,5901 > /clusterdata/uqyholtz/6_JULANNE_THESIS/UKB_Julanne_6_9_2017_full.txt
+
+# Keep 50k random lines and load tranfer the file locally
+head -1 UKB_Julanne_6_9_2017_full.txt > UKB_Julanne_6_9_2017_abstract.txt
+shuf -n 50000 UKB_Julanne_6_9_2017_full.txt >> UKB_Julanne_6_9_2017_abstract.txt
+scp  uqyholtz@inode.qbi.uq.edu.au:/ibscratch/wrayvisscher/Yan_Holtz/6_JULANNE_THESIS/UKB_Julanne_6_9_2017_abstract.txt.gz .
+```
+
+This file looks like this:
+```{r}
+# Load this file in R
+data=read.table("UKB_Julanne_6_9_2017_abstract.txt.gz", header=T)
+
+# Data looks like that
+data %>% head(30)
+```
+
+This file has `r nrow(data)` lines and `r ncol(data)` columns. It is ready to be analysed.
+
+
+
+
+
+# Variables Description {.tabset .tabset-fade .tabset-pills}
+***
+
+## Reasoning
+Also called **fluid intelligence** or **verbal-numerical reasoning**. 13 logic-type question have been asked in 2 minutes. Thus the score goes from 0 to 13. Referenced as f-20016 in the UKB. This information is split in 3 columns in the UKB. If I understood well, the first one interests us the most. The other concern a sample of the population who re-done the test about 4 years later. This variable has **`r length(which(!is.na(data$f.20016.0.0)))` entries**. Mean: `r mean(data$f.20016.0.0, na.rm=TRUE) %>% round(2)`. Max: `r max(data$f.20016.0.0, na.rm=TRUE) %>% round(2)`. Min: `r min(data$f.20016.0.0, na.rm=TRUE) %>% round(2)`. Median: `r median(data$f.20016.0.0, na.rm=TRUE) %>% round(2)`. Let's describe the distribution of this variable.
+```{r, warning=FALSE, fig.align='center' }
+data %>% group_by(f.20016.0.0) %>% summarise(occurence=n()) %>%
+  ggplot( aes(x=f.20016.0.0, y=occurence)) +
+  geom_bar(stat="identity", fill="blue", alpha=0.5, width=0.5) +
+  theme_bw() +
+  xlab("Result of the reasoning test") +
+  ylab("Number of people")
+```
+
+
+
+
+## Reaction time
+Also called **RT**. Test of symbol matching. The score is the mean reaction time in ms. Thus the smaller the better. Referenced as f-20023 in the UKB. This information is split in 3 columns in the UKB. I use the first (first batch). This variable has **`r length(which(!is.na(data$f.20023.0.0)))` entries** (almost every body). Mean: `r mean(data$f.20023.0.0, na.rm=TRUE) %>% round(2)`. Max: `r max(data$f.20023.0.0, na.rm=TRUE) %>% round(2)`. Min: `r min(data$f.20023.0.0, na.rm=TRUE) %>% round(2)`. Median: `r median(data$f.20023.0.0, na.rm=TRUE) %>% round(2)`. The distribution of this variable shows a long right tail. We will thus use a log transformation to analyse it as proposed in [Lyall et al.](http://journals.plos.org/plosone/article?id=10.1371/journal.pone.0154222).
+```{r, warning=FALSE, fig.align='center', out.width = '90%', fig.height=3 }
+a = data %>% 
+  ggplot( aes(x=f.20023.0.0)) +
+  geom_histogram(fill="blue", alpha=0.5, bins=100) +
+  theme_bw() +
+  xlab("Result of the reaction time test") +
+  ylab("Number of people")
+b = a + scale_x_log10()
+grid.arrange(a, b, ncol=2)
+```
+
+
+## Numeric memory
+The score is the number of digits of a number people can remember. It goes from 2 to 12. Thus the bigger the better. Referenced as f-4282 in the UKB. This information is given in 1 column in the UKB. It has not been repeated like the other cognitive variables. It has **`r length(which(!is.na(data$f.4282.0.0)))` entries** (very low proportion of people). Mean: `r mean(data$f.4282.0.0, na.rm=TRUE) %>% round(2)`. Max: `r max(data$f.4282.0.0, na.rm=TRUE) %>% round(2)`. Min: `r min(data$f.4282.0.0, na.rm=TRUE) %>% round(2)`. Median: `r median(data$f.4282.0.0, na.rm=TRUE) %>% round(2)`. The distribution of this variable shows weird value (less than 0) that must be removed for further analysis.
+```{r, warning=FALSE, fig.align='center'}
+data %>% 
+  ggplot( aes(x=f.4282.0.0)) +
+  geom_histogram(fill="blue", alpha=0.5, bins=100) +
+  theme_bw() +
+  xlab("Result of the numeric memory test") +
+  ylab("Number of people")
+
+# Remove weird values under 0
+data$f.4282.0.0[ which(data$f.4282.0.0<0)]=NA
+```
+
+
+
+## Visual memory
+The score is the number of errors made during a pair matching card exercise. It goes from 1 to 6. Thus the **lower** the **better**. Referenced as f-399 in the UKB.  
+This information is given in several columns in the UKB. We will study f.399.0.1 and f.399.0.2 that are 2 versions of the game done during the initial assessment if I understood well. I think the first game works with 3 pairs of card, the second with 6. This is why there are more mistake in the second version.
+```{r, warning=FALSE, fig.align='center'}
+a=data %>% 
+  ggplot( aes(x=f.399.0.1)) +
+  geom_histogram(fill="blue", alpha=0.5, bins=100) +
+  theme_bw() +
+  xlab("Result of the visual first memory test") +
+  ylab("Number of people")
+b=data %>% 
+  ggplot( aes(x=f.399.0.2)) +
+  geom_histogram(fill="blue", alpha=0.5, bins=100) +
+  theme_bw() +
+  xlab("Result of the visual second memory test") +
+  ylab("Number of people")
+grid.arrange(a, b, ncol=2)
+```
+
+
+## Prospective memory
+Also called PM. This is a trap at the end of the exam, and the person must remember something we told him at the beginning of the experiment. Result is binary: fail or not. Thus I do not understand why I have 3 categories in my data: 0, 1, 2..?
+```{r}
+table(data$f.20018.0.0) %>% as.data.frame()
+```
+
+
+# Correlation between variable
+***
+Let's compute the Pearson correlation between each pair of the cognitive variables. The values I get are consistent with [Lyall et al.](http://journals.plos.org/plosone/article?id=10.1371/journal.pone.0154222). Except for the prospective memory where I have strange results, probably due to this '2' in the data.
+```{r}
+don = data %>% select( f.20016.0.0, f.20023.0.0, f.4282.0.0, f.399.0.1, f.399.0.2, f.20018.0.0)
+colnames(don) = c("Reasoning", "Reaction", "Num memory", "Viz memory - 1", "Viz memory - 2", "Prosp memory")
+mycor = don %>% cor(use="complete.obs")
+mycor %>% round(2) %>% as.data.frame()
+```
+
+
+# PCA and G-value
+***
+Let's run a PCA on these data. The goal is to see if we can summarize them through a unique numeric value: a G value.  
+Note, I have a lot of NA, I should investigate more how to manage that in the PCA.
+I do not plot the distribution of individuals in the PCA since it makes to many points and the chart gets unreadable.  
+  
+My PCA is not consistent with the result of the publication yet.  
+
+My interpretation: both vizual memory games and reaction show the same thing, which makes sense since in both case it is a visual game. Num memory and Reasoning show the same thing as well, it shows the 'mathematic spirit' of the candidate.
+```{r, warning=FALSE, fig.align="center"}
+res.PCA = PCA(don, scale.unit=TRUE, ncp=4, graph=F ) 
+plot.PCA(res.PCA, axes=c(1, 2), choix="var")
+```
+
