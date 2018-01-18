@@ -12,7 +12,8 @@ This repository is a custom template for R Markdown. It is based on the default 
 The html output looks like this:
 
 ***
-<img align="center" src="screenshot1.png">
+<img align="center" src="screenshot.png">
+
 ***
 
 
