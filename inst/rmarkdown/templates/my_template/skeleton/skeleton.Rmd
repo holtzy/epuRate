@@ -1,5 +1,5 @@
 ---
-title: "Cognitive data in the UKB"
+title: "A clean and uncluttered template"
 author: "by [Yan Holtz](https://github.com/holtzy/) - `r format(Sys.time(), '%d %B %Y')`"
 output:
   html_document:
@@ -25,144 +25,187 @@ knitr::asis_output(htmltools::htmlPreserve("<br><br>"))
 ```
 
 
-> This document describe 5 cognitive variables of the UKBiobank dataset: Reasoning (f-20016), Reaction time ('RT', f-20023), Numeric memory (f-4282), Visual memory (f-399), Prospective memory (f-20018). A PCA is also performed in order to create a G value that summarizes them, as proposed in [Lyall et al.](http://journals.plos.org/plosone/article?id=10.1371/journal.pone.0154222)
+> I find it not too bad to start with a couple of sentences of introduction. Explain briefly what this document is going to talk about. May be add a [useful link](www.r-graph-gallery.com) relative to this project
 
 
 # Get the data
 ***
-First of all, I need to load several libraries that will be usefull for our analysis.
+Usually I always start by loading libraries. The tidyverse is probably the package I use the most. Quite difficult to imagine analysing data without it. It is a good practice to load all the packages in the same time. It allows to know exactly what is needed to reproduce your analysis.
 ```{r, message=FALSE, warning=FALSE}
 library(tidyverse)
-library(gridExtra)
-library(FactoMineR)
 ```
 
-The UKB dataset is stored in the QBI cluster and thus currently accessible via Inode only. I use a bash command line to recover several fields: id, height, sex, BMI, and the 5 cognitive variables.
-This file had already been created for Julanne the 11/10/2017. I keep only 50k random lines to have a lighter dataset.
-```{r, eval=FALSE}
-# Go to Julanne folder
-cd /ibscratch/wrayvisscher/Yan_Holtz/6_JULANNE_THESIS
-
-# Take the interesting columns
-zcat /references/UKBiobank/pheno/download/9280_12505_UKBiobank.tab.gz | cut -f1,2529,2530,2531,3587,2544,2545,2546,2532,2533,2534,163,164,166,167,169,170,171,3452,3453,3454,784,4059,3570,3589,3568,3569,4064,4065,4081,4075,4076,4077,4066,4067,4068,4087,25,9,8,4083,26,27,28,3429,3430,3431,3432,3433,3434,3435,150,151,152,4069,4070,4071,3439,3440,3441,3438,7064,8487,8488,8489,8490,8491,8492,8493,8494,8495,8496,8497,8498,8499,8500,8501,6008,6009,6010,5896,5897,5898,5899,5900,5901 > /clusterdata/uqyholtz/6_JULANNE_THESIS/UKB_Julanne_6_9_2017_full.txt
-
-# Keep 50k random lines and load tranfer the file locally
-head -1 UKB_Julanne_6_9_2017_full.txt > UKB_Julanne_6_9_2017_abstract.txt
-shuf -n 50000 UKB_Julanne_6_9_2017_full.txt >> UKB_Julanne_6_9_2017_abstract.txt
-scp  uqyholtz@inode.qbi.uq.edu.au:/ibscratch/wrayvisscher/Yan_Holtz/6_JULANNE_THESIS/UKB_Julanne_6_9_2017_abstract.txt.gz .
-```
-
-This file looks like this:
+Then I explain what is my input data and I load it. Here is how it looks like:
 ```{r}
-# Load this file in R
-data=read.table("UKB_Julanne_6_9_2017_abstract.txt.gz", header=T)
-
-# Data looks like that
-data %>% head(30)
+# Show it:
+mtcars %>% head(5)
 ```
 
-This file has `r nrow(data)` lines and `r ncol(data)` columns. It is ready to be analysed.
+This file has `r nrow(mtcars)` lines and `r ncol(mtcars)` columns. It is ready to be analysed.
 
 
 
 
 
-# Variables Description {.tabset .tabset-fade .tabset-pills}
+# A few analysis {.tabset .tabset-fade .tabset-pills}
 ***
+Here are 3 version of a circular barplot that you can find in the R graph gallery. Note that the figure is centered. You can change the size of the plot with **fig.width** and **fig.height**  
 
-## Reasoning
-Also called **fluid intelligence** or **verbal-numerical reasoning**. 13 logic-type question have been asked in 2 minutes. Thus the score goes from 0 to 13. Referenced as f-20016 in the UKB. This information is split in 3 columns in the UKB. If I understood well, the first one interests us the most. The other concern a sample of the population who re-done the test about 4 years later. This variable has **`r length(which(!is.na(data$f.20016.0.0)))` entries**. Mean: `r mean(data$f.20016.0.0, na.rm=TRUE) %>% round(2)`. Max: `r max(data$f.20016.0.0, na.rm=TRUE) %>% round(2)`. Min: `r min(data$f.20016.0.0, na.rm=TRUE) %>% round(2)`. Median: `r median(data$f.20016.0.0, na.rm=TRUE) %>% round(2)`. Let's describe the distribution of this variable.
+## basic
+Let's start with a basic version of a circular representation of the data
 ```{r, warning=FALSE, fig.align='center' }
-data %>% group_by(f.20016.0.0) %>% summarise(occurence=n()) %>%
-  ggplot( aes(x=f.20016.0.0, y=occurence)) +
-  geom_bar(stat="identity", fill="blue", alpha=0.5, width=0.5) +
-  theme_bw() +
-  xlab("Result of the reasoning test") +
-  ylab("Number of people")
+# Create dataset
+data=data.frame(
+  individual=paste( "Mister ", seq(1,60), sep=""),
+  value=sample( seq(10,100), 60, replace=T)
+)
+
+# Set a number of 'empty bar'
+empty_bar=10
+ 
+# Add lines to the initial dataset
+to_add = matrix(NA, empty_bar, ncol(data))
+colnames(to_add) = colnames(data)
+data=rbind(data, to_add)
+data$id=seq(1, nrow(data))
+ 
+# Get the name and the y position of each label
+label_data=data
+number_of_bar=nrow(label_data)
+angle= 90 - 360 * (label_data$id-0.5) /number_of_bar     # I substract 0.5 because the letter must have the angle of the center of the bars. Not extreme right(1) or extreme left (0)
+label_data$hjust<-ifelse( angle < -90, 1, 0)
+label_data$angle<-ifelse(angle < -90, angle+180, angle)
+ 
+# Make the plot
+p = ggplot(data, aes(x=as.factor(id), y=value)) +       # Note that id is a factor. If x is numeric, there is some space between the first bar
+  geom_bar(stat="identity", fill=alpha("green", 0.3)) +
+  ylim(-100,120) +
+  theme_minimal() +
+  theme(
+    axis.text = element_blank(),
+    axis.title = element_blank(),
+    panel.grid = element_blank(),
+    plot.margin = unit(rep(-1,4), "cm") 
+  ) +
+  coord_polar(start = 0) + 
+  geom_text(data=label_data, aes(x=id, y=value+10, label=individual, hjust=hjust), color="black", fontface="bold",alpha=0.6, size=2.5, angle= label_data$angle, inherit.aes = FALSE ) 
+ 
+p
 ```
 
 
+## grouped
+```{r, warning=FALSE, fig.align='center' }
+# Create dataset
+data=data.frame(
+  individual=paste( "Mister ", seq(1,60), sep=""),
+  group=c( rep('A', 10), rep('B', 30), rep('C', 14), rep('D', 6)) ,
+  value=sample( seq(10,100), 60, replace=T)
+)
 
-
-## Reaction time
-Also called **RT**. Test of symbol matching. The score is the mean reaction time in ms. Thus the smaller the better. Referenced as f-20023 in the UKB. This information is split in 3 columns in the UKB. I use the first (first batch). This variable has **`r length(which(!is.na(data$f.20023.0.0)))` entries** (almost every body). Mean: `r mean(data$f.20023.0.0, na.rm=TRUE) %>% round(2)`. Max: `r max(data$f.20023.0.0, na.rm=TRUE) %>% round(2)`. Min: `r min(data$f.20023.0.0, na.rm=TRUE) %>% round(2)`. Median: `r median(data$f.20023.0.0, na.rm=TRUE) %>% round(2)`. The distribution of this variable shows a long right tail. We will thus use a log transformation to analyse it as proposed in [Lyall et al.](http://journals.plos.org/plosone/article?id=10.1371/journal.pone.0154222).
-```{r, warning=FALSE, fig.align='center', out.width = '90%', fig.height=3 }
-a = data %>% 
-  ggplot( aes(x=f.20023.0.0)) +
-  geom_histogram(fill="blue", alpha=0.5, bins=100) +
-  theme_bw() +
-  xlab("Result of the reaction time test") +
-  ylab("Number of people")
-b = a + scale_x_log10()
-grid.arrange(a, b, ncol=2)
+# Set a number of 'empty bar' to add at the end of each group
+empty_bar=4
+to_add = data.frame( matrix(NA, empty_bar*nlevels(data$group), ncol(data)) )
+colnames(to_add) = colnames(data)
+to_add$group=rep(levels(data$group), each=empty_bar)
+data=rbind(data, to_add)
+data=data %>% arrange(group)
+data$id=seq(1, nrow(data))
+ 
+# Get the name and the y position of each label
+label_data=data
+number_of_bar=nrow(label_data)
+angle= 90 - 360 * (label_data$id-0.5) /number_of_bar     # I substract 0.5 because the letter must have the angle of the center of the bars. Not extreme right(1) or extreme left (0)
+label_data$hjust<-ifelse( angle < -90, 1, 0)
+label_data$angle<-ifelse(angle < -90, angle+180, angle)
+ 
+# Make the plot
+p = ggplot(data, aes(x=as.factor(id), y=value, fill=group)) +       # Note that id is a factor. If x is numeric, there is some space between the first bar
+  geom_bar(stat="identity", alpha=0.5) +
+  ylim(-100,120) +
+  theme_minimal() +
+  theme(
+    legend.position = "none",
+    axis.text = element_blank(),
+    axis.title = element_blank(),
+    panel.grid = element_blank(),
+    plot.margin = unit(rep(-1,4), "cm") 
+  ) +
+  coord_polar() + 
+  geom_text(data=label_data, aes(x=id, y=value+10, label=individual, hjust=hjust), color="black", fontface="bold",alpha=0.6, size=2.5, angle= label_data$angle, inherit.aes = FALSE ) 
+ 
+p
 ```
 
-
-## Numeric memory
-The score is the number of digits of a number people can remember. It goes from 2 to 12. Thus the bigger the better. Referenced as f-4282 in the UKB. This information is given in 1 column in the UKB. It has not been repeated like the other cognitive variables. It has **`r length(which(!is.na(data$f.4282.0.0)))` entries** (very low proportion of people). Mean: `r mean(data$f.4282.0.0, na.rm=TRUE) %>% round(2)`. Max: `r max(data$f.4282.0.0, na.rm=TRUE) %>% round(2)`. Min: `r min(data$f.4282.0.0, na.rm=TRUE) %>% round(2)`. Median: `r median(data$f.4282.0.0, na.rm=TRUE) %>% round(2)`. The distribution of this variable shows weird value (less than 0) that must be removed for further analysis.
-```{r, warning=FALSE, fig.align='center'}
-data %>% 
-  ggplot( aes(x=f.4282.0.0)) +
-  geom_histogram(fill="blue", alpha=0.5, bins=100) +
-  theme_bw() +
-  xlab("Result of the numeric memory test") +
-  ylab("Number of people")
-
-# Remove weird values under 0
-data$f.4282.0.0[ which(data$f.4282.0.0<0)]=NA
-```
-
-
-
-## Visual memory
-The score is the number of errors made during a pair matching card exercise. It goes from 1 to 6. Thus the **lower** the **better**. Referenced as f-399 in the UKB.  
-This information is given in several columns in the UKB. We will study f.399.0.1 and f.399.0.2 that are 2 versions of the game done during the initial assessment if I understood well. I think the first game works with 3 pairs of card, the second with 6. This is why there are more mistake in the second version.
-```{r, warning=FALSE, fig.align='center'}
-a=data %>% 
-  ggplot( aes(x=f.399.0.1)) +
-  geom_histogram(fill="blue", alpha=0.5, bins=100) +
-  theme_bw() +
-  xlab("Result of the visual first memory test") +
-  ylab("Number of people")
-b=data %>% 
-  ggplot( aes(x=f.399.0.2)) +
-  geom_histogram(fill="blue", alpha=0.5, bins=100) +
-  theme_bw() +
-  xlab("Result of the visual second memory test") +
-  ylab("Number of people")
-grid.arrange(a, b, ncol=2)
-```
-
-
-## Prospective memory
-Also called PM. This is a trap at the end of the exam, and the person must remember something we told him at the beginning of the experiment. Result is binary: fail or not. Thus I do not understand why I have 3 categories in my data: 0, 1, 2..?
-```{r}
-table(data$f.20018.0.0) %>% as.data.frame()
-```
-
-
-# Correlation between variable
-***
-Let's compute the Pearson correlation between each pair of the cognitive variables. The values I get are consistent with [Lyall et al.](http://journals.plos.org/plosone/article?id=10.1371/journal.pone.0154222). Except for the prospective memory where I have strange results, probably due to this '2' in the data.
-```{r}
-don = data %>% select( f.20016.0.0, f.20023.0.0, f.4282.0.0, f.399.0.1, f.399.0.2, f.20018.0.0)
-colnames(don) = c("Reasoning", "Reaction", "Num memory", "Viz memory - 1", "Viz memory - 2", "Prosp memory")
-mycor = don %>% cor(use="complete.obs")
-mycor %>% round(2) %>% as.data.frame()
-```
-
-
-# PCA and G-value
-***
-Let's run a PCA on these data. The goal is to see if we can summarize them through a unique numeric value: a G value.  
-Note, I have a lot of NA, I should investigate more how to manage that in the PCA.
-I do not plot the distribution of individuals in the PCA since it makes to many points and the chart gets unreadable.  
+## complex
+```{r, warning=FALSE, fig.align='center' }
+# Create dataset
+data=data.frame(
+  individual=paste( "Mister ", seq(1,60), sep=""),
+  group=c( rep('A', 10), rep('B', 30), rep('C', 14), rep('D', 6)) ,
+  value=sample( seq(10,100), 60, replace=T)
+)
+ 
+# Set a number of 'empty bar' to add at the end of each group
+empty_bar=3
+to_add = data.frame( matrix(NA, empty_bar*nlevels(data$group), ncol(data)) )
+colnames(to_add) = colnames(data)
+to_add$group=rep(levels(data$group), each=empty_bar)
+data=rbind(data, to_add)
+data=data %>% arrange(group)
+data$id=seq(1, nrow(data))
+ 
+# Get the name and the y position of each label
+label_data=data
+number_of_bar=nrow(label_data)
+angle= 90 - 360 * (label_data$id-0.5) /number_of_bar     # I substract 0.5 because the letter must have the angle of the center of the bars. Not extreme right(1) or extreme left (0)
+label_data$hjust<-ifelse( angle < -90, 1, 0)
+label_data$angle<-ifelse(angle < -90, angle+180, angle)
+ 
+# prepare a data frame for base lines
+base_data=data %>% 
+  group_by(group) %>% 
+  summarize(start=min(id), end=max(id) - empty_bar) %>% 
+  rowwise() %>% 
+  mutate(title=mean(c(start, end)))
+ 
+# prepare a data frame for grid (scales)
+grid_data = base_data
+grid_data$end = grid_data$end[ c( nrow(grid_data), 1:nrow(grid_data)-1)] + 1
+grid_data$start = grid_data$start - 1
+grid_data=grid_data[-1,]
+ 
+# Make the plot
+p = ggplot(data, aes(x=as.factor(id), y=value, fill=group)) +       # Note that id is a factor. If x is numeric, there is some space between the first bar
   
-My PCA is not consistent with the result of the publication yet.  
-
-My interpretation: both vizual memory games and reaction show the same thing, which makes sense since in both case it is a visual game. Num memory and Reasoning show the same thing as well, it shows the 'mathematic spirit' of the candidate.
-```{r, warning=FALSE, fig.align="center"}
-res.PCA = PCA(don, scale.unit=TRUE, ncp=4, graph=F ) 
-plot.PCA(res.PCA, axes=c(1, 2), choix="var")
+  geom_bar(aes(x=as.factor(id), y=value, fill=group), stat="identity", alpha=0.5) +
+  
+  # Add a val=100/75/50/25 lines. I do it at the beginning to make sur barplots are OVER it.
+  geom_segment(data=grid_data, aes(x = end, y = 80, xend = start, yend = 80), colour = "grey", alpha=1, size=0.3 , inherit.aes = FALSE ) +
+  geom_segment(data=grid_data, aes(x = end, y = 60, xend = start, yend = 60), colour = "grey", alpha=1, size=0.3 , inherit.aes = FALSE ) +
+  geom_segment(data=grid_data, aes(x = end, y = 40, xend = start, yend = 40), colour = "grey", alpha=1, size=0.3 , inherit.aes = FALSE ) +
+  geom_segment(data=grid_data, aes(x = end, y = 20, xend = start, yend = 20), colour = "grey", alpha=1, size=0.3 , inherit.aes = FALSE ) +
+  
+  # Add text showing the value of each 100/75/50/25 lines
+  annotate("text", x = rep(max(data$id),4), y = c(20, 40, 60, 80), label = c("20", "40", "60", "80") , color="grey", size=3 , angle=0, fontface="bold", hjust=1) +
+  
+  geom_bar(aes(x=as.factor(id), y=value, fill=group), stat="identity", alpha=0.5) +
+  ylim(-100,120) +
+  theme_minimal() +
+  theme(
+    legend.position = "none",
+    axis.text = element_blank(),
+    axis.title = element_blank(),
+    panel.grid = element_blank(),
+    plot.margin = unit(rep(-1,4), "cm") 
+  ) +
+  coord_polar() + 
+  geom_text(data=label_data, aes(x=id, y=value+10, label=individual, hjust=hjust), color="black", fontface="bold",alpha=0.6, size=2.5, angle= label_data$angle, inherit.aes = FALSE ) +
+  
+  # Add base line information
+  geom_segment(data=base_data, aes(x = start, y = -5, xend = end, yend = -5), colour = "black", alpha=0.8, size=0.6 , inherit.aes = FALSE )  +
+  geom_text(data=base_data, aes(x = title, y = -18, label=group), hjust=c(1,1,0,0), colour = "black", alpha=0.8, size=4, fontface="bold", inherit.aes = FALSE)
+ 
+p
 ```
 
