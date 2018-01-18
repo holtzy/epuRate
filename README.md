@@ -23,7 +23,7 @@ I created this template for my personnal use but feel free to use it:
 - Install the library in R:
 ```
 library(devtools)
-devtools::install("epuRate")
+install_github("holtzy/epuRate")
 library(epuRate)
 ```
 - Open a new rmd file in Rstudio: File -> New File -> R Markdown -> From Template -> My Template by epuRate.
