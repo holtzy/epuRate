@@ -1,6 +1,6 @@
 library(rmarkdown)
 
-epurate <- function(toc = TRUE) {
+epurate <- function(toc = TRUE, code_folding = "hide") {
   
   # get the locations of resource files located within the package
   css <- system.file("rmarkdown", "templates", "epurate" ,"resources", "style.css", package = "epuRate")
@@ -13,6 +13,8 @@ epurate <- function(toc = TRUE) {
                                toc_float= TRUE,
                                toc_depth= 2,
                                number_sections= TRUE,
+                               df_print = "paged",
+                               code_folding = code_folding,
                                includes = includes(after_body = footer)
                             )
 
@@ -20,6 +22,3 @@ epurate <- function(toc = TRUE) {
 
 
 
-#
-#df_print= paged,
-#code_folding= hide,

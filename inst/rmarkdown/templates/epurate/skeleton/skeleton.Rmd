@@ -2,7 +2,9 @@
 title: "A clean and uncluttered template"
 author: "by [Yan Holtz](https://github.com/holtzy/) - `r format(Sys.time(), '%d %B %Y')`"
 output:
-  epuRate::epurate
+  epuRate::epurate:
+    toc: FALSE
+    code_folding: "hide"
 ---
 
 ```{r setup, include=FALSE}
@@ -23,6 +25,7 @@ knitr::asis_output(htmltools::htmlPreserve("<br><br>"))
 Usually I always start by loading libraries. The tidyverse is probably the package I use the most. Quite difficult to imagine analysing data without it. It is a good practice to load all the packages in the same time. It allows to know exactly what is needed to reproduce your analysis.
 ```{r, message=FALSE, warning=FALSE}
 library(tidyverse)
+library(rmarkdown)
 ```
 
 Then I explain what is my input data and I load it. Here is how it looks like:
