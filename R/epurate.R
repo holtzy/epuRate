@@ -1,3 +1,5 @@
+library(rmarkdown)
+
 epurate <- function(toc = TRUE) {
   
   # get the locations of resource files located within the package
@@ -5,7 +7,7 @@ epurate <- function(toc = TRUE) {
   footer <- system.file("rmarkdown", "templates", "epurate" ,"resources", "footer.html", package = "epuRate")
   
   # call the base html_document function
-  rmarkdown::html_document( 
+  rmarkdown::html_document( theme= "lumen",
                                css= css,
                                toc= toc,
                                toc_float= TRUE,
@@ -18,6 +20,6 @@ epurate <- function(toc = TRUE) {
 
 
 
-#theme= lumen,
+#
 #df_print= paged,
 #code_folding= hide,
