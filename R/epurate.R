@@ -5,7 +5,7 @@ epurate <- function(toc = TRUE) {
   footer <- system.file("rmarkdown", "templates", "epurate" ,"resources", "footer.html", package = "epuRate")
   
   # call the base html_document function
-  rmarkdown::html_document( theme= lumen,
+  rmarkdown::html_document( 
                                css= css,
                                toc= toc,
                                toc_float= TRUE,
@@ -18,5 +18,6 @@ epurate <- function(toc = TRUE) {
 
 
 
+#theme= lumen,
 #df_print= paged,
 #code_folding= hide,
