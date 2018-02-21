@@ -1,0 +1,10 @@
+---
+title: "A clean and uncluttered template"
+output:
+  html_document
+---
+
+# title 1
+
+# title 2
+
