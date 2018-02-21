@@ -8,8 +8,9 @@ output:
 ---
 
 ```{r, echo=FALSE, message=FALSE, warning=FALSE}
-library(rmarkdown)    # You need this library to run this template.
-library(epuRate)      # Install with devtools: install_github("holtzy/epuRate", force=TRUE)
+# You need these libraries to run this template:
+library(rmarkdown)    # install.packages("rmarkdown") 
+library(epuRate)      # devtools::install_github("holtzy/epuRate", force=TRUE)
 ```
 
 <br><br><br><br>
