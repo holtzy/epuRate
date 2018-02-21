@@ -39,6 +39,7 @@ library(qqman)
 
 # Show data in a table
 ***
+It's often handy to keep a trace of the raw data somewhere in your document. The DT library allows to build interactive tables that you can search, filter, highlight and more.
 ```{r}
 library(DT)
 datatable(gwasResults, rownames = FALSE, filter="top", options = list(pageLength = 5, scrollX=T) )
@@ -46,8 +47,11 @@ datatable(gwasResults, rownames = FALSE, filter="top", options = list(pageLength
 
 
 
+
+
 # An interactive manhattan plot
 ***
+Using `HTML` outputs you can embed some interactive graphics. For example, the plotly library can transform any of your ggplot2 graphic in an interactive chart:
 ```{r, message=FALSE, warning=FALSE, echo=FALSE}
 # Libraries
 library(plotly)

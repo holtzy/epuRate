@@ -9,8 +9,9 @@ div.main-container{
 }
 
 h1, .h1 {
-    margin-top: 50px;
+    margin-top: 120px;
     margin-bottom: 20px !important;
+    color: #428bca;
 }
 
 h2, .h2, h3, .h3 {
@@ -37,9 +38,7 @@ pre {
 
 
 
-h1, h2, h3, h4 {
-    color: #428bca;
-}
+
 
 
 div.tocify{
