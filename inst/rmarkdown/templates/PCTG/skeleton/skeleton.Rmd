@@ -1,0 +1,17 @@
+---
+title: "A clean and uncluttered template"
+author: "by [Yan Holtz](https://github.com/holtzy/) - `r format(Sys.time(), '%d %B %Y')`"
+output:
+  epuRate::PCTG:
+    toc: FALSE
+    code_folding: "hide"
+---
+
+<br><br><br><br>
+>Welcome in the PCTG R Markdown template.
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+library(rmarkdown)    # You need this library to run this template.
+library(epuRate)      # Install with devtools: install_github("holtzy/epuRate", force=TRUE)
+```
+
