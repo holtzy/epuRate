@@ -1,10 +1,10 @@
-
-
-
 h1, .h1, h2, .h2, h3, .h3 {
     margin-top: 84px;
 }
 
+h1.title {
+  text-align: center;
+}
 
 pre {
     border: 0px solid #cccccc;
