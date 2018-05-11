@@ -1,13 +1,15 @@
-   epuRate: an uncluttered R Markdown template with your contact details
+   An uncluttered R Markdown template
 ===================
+
+<br>
 
 See it live [**here**](https://holtzy.github.io/epuRate/).
 
+<br>
+
 Overview
 --------
-I am a big fan of [**R MarkDown**](https://rmarkdown.rstudio.com). This tool allows you to create interactive documents with text, figures and R code. I use it on a daily basis for my data analysis, wether it is to share it with others or simply to remember what I've done.
-
-This repository is [a custom template](https://holtzy.github.io/epuRate/) for R Markdown. It allows to get a uncluttered output with your contact details in the footer.
+EpuRate is [a custom R Markdown template](https://holtzy.github.io/epuRate/) for your reports. It allows to get a uncluttered output with your contact details in the footer. It is very easy to use.
 
 The html output looks like this: (you can also see a real version [**here**](https://holtzy.github.io/epuRate/)
 
