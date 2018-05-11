@@ -1,4 +1,4 @@
-   epuRate: my personal rmd template
+   epuRate: an uncluttered R Markdown template with your contact details
 ===================
 
 See it live [**here**](https://holtzy.github.io/epuRate/).
