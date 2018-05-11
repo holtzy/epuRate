@@ -11,7 +11,7 @@ Overview
 --------
 EpuRate is [a custom R Markdown template](https://holtzy.github.io/epuRate/) for your reports. It allows to get a uncluttered output with your contact details in the footer. It is very easy to use.
 
-The html output looks like this: (you can also see a real version [**here**](https://holtzy.github.io/epuRate/)
+The html output looks like this: (you can also see a real version [**here**](https://holtzy.github.io/epuRate/) )
 
 ***
 <img align="center" src="screen_shot.png">
