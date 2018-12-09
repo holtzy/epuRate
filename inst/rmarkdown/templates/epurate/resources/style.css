@@ -32,6 +32,37 @@ a:hover {
 
 
 
+/* ---------- TOC ----------------- */
+#TOC {
+  top: 40%;
+  position: fixed;
+}
+.tocify {
+  border: none;
+  color: grey;
+  border-radius: 0px;
+}
+.list-group-item.active {
+    color: #69b3a2;
+    background-color: white;
+    border-left: solid;
+    border-color: #69b3a2;
+}
+.list-group-item:hover {
+    color: #69b3a2;
+    background-color: white;
+    border-left: solid;
+    border-color: #69b3a2;
+}
+.tocify-extend-page {
+  display: none;
+}
+
+
+
+
+
+
 
 /* ---------- Button ----------------- */
 .btn {

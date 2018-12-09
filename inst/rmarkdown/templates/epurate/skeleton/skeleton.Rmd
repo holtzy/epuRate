@@ -5,22 +5,25 @@ date: "`r format(Sys.time(), '%d %B %Y')`"
 mail: "yan.holtz.data@gmail.com"
 linkedin: "yan-holtz-2477534a"
 twitter: "r_graph_gallery"
-github: "tutu"
+github: "holtzy"
+home: "www.yan-holtz.com"
 output:
   epuRate::epurate:
-    toc: FALSE
+    toc: TRUE
+    number_sections: FALSE
     code_folding: "hide"
+
 ---
 
 
 <br><br>
 
-> I find it not too bad to start with a couple of sentences of introduction. Explain briefly what this document is going to talk about. May be add a [useful link](www.r-graph-gallery.com) relative to this project
+> Let's start with a short introduction. Explain briefly what this document is going to talk about. May be add a [useful link](www.r-graph-gallery.com) relative to this project.
 
 
 # Get the data
 ***
-Usually I always start by loading libraries. The tidyverse is probably the package I use the most. Quite difficult to imagine analysing data without it. It is a good practice to load all the packages in the same time. It allows to know exactly what is needed to reproduce your analysis.
+Always start by loading *libraries*. The [tidyverse](https://www.tidyverse.org) is probably the package I use the most. Quite difficult to imagine analysing data without it. It is a good practice to load all the packages in the same time. It allows to know exactly what is needed to reproduce your analysis.
 ```{r, message=FALSE, warning=FALSE}
 library(tidyverse)
 library(rmarkdown)    # You need this library to run this template.
@@ -39,9 +42,9 @@ This file has `r nrow(mtcars)` lines and `r ncol(mtcars)` columns. It is ready t
 
 
 
-# A few analysis {.tabset .tabset-fade .tabset-pills}
+# A few analysis
 ***
-Here are 3 version of a circular barplot that you can find in the R graph gallery. Note that the figure is centered. You can change the size of the plot with **fig.width** and **fig.height**  
+Here are 3 version of a [circular barplot](https://www.r-graph-gallery.com/circular-barplot/) that you can find in the [R graph gallery](https://www.r-graph-gallery.com/circular-barplot/). Note that the figure is centered. You can change the size of the plot with **fig.width** and **fig.height**  
 
 ## basic
 Let's start with a basic version of a circular representation of the data
@@ -70,7 +73,7 @@ label_data$angle<-ifelse(angle < -90, angle+180, angle)
  
 # Make the plot
 p = ggplot(data, aes(x=as.factor(id), y=value)) +       # Note that id is a factor. If x is numeric, there is some space between the first bar
-  geom_bar(stat="identity", fill=alpha("green", 0.3)) +
+  geom_bar(stat="identity", fill="#69b3a2") +
   ylim(-100,120) +
   theme_minimal() +
   theme(
@@ -200,4 +203,12 @@ p = ggplot(data, aes(x=as.factor(id), y=value, fill=group)) +       # Note that 
  
 p
 ```
+
+
+
+# Conclusion
+***
+Read more about this template [here](https://github.com/holtzy/epuRate).
+
+Learn how to custom your R Markdown document [here](https://holtzy.github.io/Pimp-my-rmd/).
 
