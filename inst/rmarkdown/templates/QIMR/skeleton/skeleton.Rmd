@@ -1,5 +1,5 @@
 ---
-title: "UQ R Markdown template"
+title: "QIMR R Markdown template"
 author: "[Yan Holtz](https://github.com/holtzy)"
 date: "`r format(Sys.time(), '%d %B %Y')`"
 mail: "yan.holtz.data@gmail.com"
