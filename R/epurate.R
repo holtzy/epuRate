@@ -26,7 +26,7 @@ PCTG <- function(toc = TRUE, code_folding = "hide", number_sections=TRUE) {
 
   # get the locations of resource files located within the package
   css <- system.file("rmarkdown", "templates", "PCTG" ,"resources", "style.css", package = "epuRate")
-  template <- system.file("rmarkdown", "templates", "PCTG" ,"resources", "template_epurate.html", package = "epuRate")
+  template <- system.file("rmarkdown", "templates", "PCTG" ,"resources", "template_pctg.html", package = "epuRate")
 
   # call the base html_document function
   rmarkdown::html_document( theme= "lumen",
@@ -44,12 +44,12 @@ PCTG <- function(toc = TRUE, code_folding = "hide", number_sections=TRUE) {
 
 
 
-# Features of PCTG Template
+# Features of uq Template
 UQ <- function(toc = TRUE, code_folding = "hide", number_sections=TRUE) {
 
   # get the locations of resource files located within the package
   css <- system.file("rmarkdown", "templates", "UQ" ,"resources", "style.css", package = "epuRate")
-  template <- system.file("rmarkdown", "templates", "UQ" ,"resources", "template_epurate.html", package = "epuRate")
+  template <- system.file("rmarkdown", "templates", "UQ" ,"resources", "template_uq.html", package = "epuRate")
 
   # call the base html_document function
   rmarkdown::html_document( theme= "lumen",
