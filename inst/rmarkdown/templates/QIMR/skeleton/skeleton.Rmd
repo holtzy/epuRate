@@ -22,7 +22,7 @@ library(epuRate)      # devtools::install_github("holtzy/epuRate", force=TRUE)
 
 <br><br><br><br>
 
->Welcome in the [PCTG R Markdown template](https://github.com/holtzy/epuRate). This document describes how the template looks like, building an interactive Manhattan plot.
+>Welcome in the [QIMR Markdown template](https://github.com/holtzy/epuRate). This document describes how the template looks like, building an interactive Manhattan plot.
 
 
 

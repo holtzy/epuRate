@@ -18,6 +18,7 @@ Note that a specific version is available for:
 
 - members of the [University of Queensland](https://holtzy.github.io/epuRate/uq.html)
 - members of [PCTG](https://holtzy.github.io/epuRate/pctg.html)
+- members of [QIMR](https://holtzy.github.io/epuRate/qimr.html)
 
 
 <br><br><br>
