@@ -13,6 +13,11 @@ EpuRate is [a custom R Markdown template](https://holtzy.github.io/epuRate/) for
 
 The html output looks like [**this**](https://holtzy.github.io/epuRate/).
 
+Note that a specific version is available for:
+
+- members of the [University of Queensland](https://holtzy.github.io/epuRate/uq.html)
+- members of [PCTG](https://holtzy.github.io/epuRate/pctg.html)
+
 
 <br><br><br>
 Using it
