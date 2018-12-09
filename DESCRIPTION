@@ -1,7 +1,7 @@
 Package: epuRate
-Title: My personal rmd template for every day analysis
+Title: A clean template for R Markdown documents
 Version: 0.1
-Authors@R: person("First", "Last", email = "first.last@example.com",
+Authors@R: person("Yan", "Holtz", email = "yan.holtz.data@gmail.com",
                   role = c("aut", "cre"))
 Description: What the package does (one paragraph)
 Depends: R (>= 3.1.0)

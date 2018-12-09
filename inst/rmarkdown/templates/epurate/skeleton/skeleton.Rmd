@@ -5,7 +5,7 @@ date: "`r format(Sys.time(), '%d %B %Y')`"
 mail: "yan.holtz.data@gmail.com"
 linkedin: "yan-holtz-2477534a"
 twitter: "r_graph_gallery"
-github: "holtzy"
+github: "tutu"
 output:
   epuRate::epurate:
     toc: FALSE

@@ -2,6 +2,10 @@ h1, .h1, h2, .h2, h3, .h3 {
     margin-top: 84px;
 }
 
+h1 {
+  padding-top: 100px;
+}
+
 h1.title {
   text-align: center;
 }
@@ -12,15 +16,36 @@ pre {
  }
 
 
+
+
+
+
+
+/* ---------- Links ----------------- */
+a {
+  color: #69b3a2;
+}
+a:hover {
+  color: #69b3a2;
+}
+
+
+
+
+
+/* ---------- Button ----------------- */
 .btn {
     border-width: 0 0px 0px 0px;
     font-weight: normal;
     text-transform: ;
+    color: #69b3a2;
 }
 .btn-default {
-    color: #2ecc71;
+    color: #69b3a2;
     background-color: #ffffff;
     border-color: #ffffff;
 }
 
-
+.nav-pills > li.active > a, .nav-pills > li.active > a:hover, .nav-pills > li.active > a:focus {
+    background-color: #69b3a2;
+}
