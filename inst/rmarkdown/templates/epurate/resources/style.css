@@ -36,6 +36,7 @@ a:hover {
 #TOC {
   top: 40%;
   position: fixed;
+  width: 210px;
 }
 .tocify {
   border: none;
@@ -59,7 +60,10 @@ a:hover {
 }
 
 
-
+/* ------ This is just to fix the bug on Safari where table of content is on top of content */
+.toc-content {
+  margin-left: 210px
+}
 
 
 
