@@ -1,10 +1,17 @@
 ---
-title: "A Manhattan plot with R Markdown"
-author: "by [Yan Holtz](https://github.com/holtzy/) - `r format(Sys.time(), '%d %B %Y')`"
+title: "PCTG R Markdown template"
+author: "[Yan Holtz](https://github.com/holtzy)"
+date: "`r format(Sys.time(), '%d %B %Y')`"
+mail: "yan.holtz.data@gmail.com"
+linkedin: "yan-holtz-2477534a"
+twitter: "r_graph_gallery"
+github: "holtzy"
+home: "www.yan-holtz.com"
 output:
   epuRate::PCTG:
     toc: TRUE
-    code_folding: "show"
+    number_sections: FALSE
+    code_folding: "hide"
 ---
 
 ```{r, echo=FALSE, message=FALSE, warning=FALSE}
@@ -15,7 +22,7 @@ library(epuRate)      # devtools::install_github("holtzy/epuRate", force=TRUE)
 
 <br><br><br><br>
 
->Welcome in the PCTG R Markdown template. Here are a few lines of code and text to give an overview of how R Markdown works.
+>Welcome in the [PCTG R Markdown template](https://github.com/holtzy/epuRate). This document describes how the template looks like, building an interactive Manhattan plot.
 
 
 
@@ -50,7 +57,7 @@ datatable(gwasResults, rownames = FALSE, filter="top", options = list(pageLength
 
 
 
-# An interactive manhattan plot
+# Manhattan plot
 ***
 Using `HTML` outputs you can embed some interactive graphics. For example, the plotly library can transform any of your ggplot2 graphic in an interactive chart:
 ```{r, message=FALSE, warning=FALSE, echo=FALSE}
@@ -117,4 +124,4 @@ p <- ggplot(don, aes(x=BPcum, y=-log10(P), text=text)) +
 ggplotly(p, tooltip="text")
 ```
 
-<br><br>
+

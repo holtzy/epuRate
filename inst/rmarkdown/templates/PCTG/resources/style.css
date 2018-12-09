@@ -1,23 +1,14 @@
-
-body{
-    margin-right: 7%;
-    font-size:16px !important;
+h1, .h1, h2, .h2, h3, .h3 {
+    margin-top: 84px;
 }
 
-div.main-container{
-    max-width: 1300px !important;
+h1 {
+  padding-top: 100px;
 }
 
-h1, .h1 {
-    margin-top: 120px;
-    margin-bottom: 20px !important;
-    color: #428bca;
+h1.title {
+  text-align: center;
 }
-
-h2, .h2, h3, .h3 {
-    margin-top: 50px;
-}
-
 
 pre {
     border: 0px solid #cccccc;
@@ -25,21 +16,78 @@ pre {
  }
 
 
+
+
+
+
+
+/* ---------- Links ----------------- */
+a {
+  color: #69b3a2;
+}
+a:hover {
+  color: #69b3a2;
+}
+
+
+
+
+/* ---------- TOC ----------------- */
+#TOC {
+  top: 30%;
+  position: fixed;
+  width: 210px;
+}
+.tocify {
+  border: none;
+  color: grey;
+  border-radius: 0px;
+}
+.list-group-item.active {
+    color: #69b3a2;
+    background-color: white;
+    border-left: solid;
+    border-color: #69b3a2;
+}
+.list-group-item:hover {
+    color: #69b3a2;
+    background-color: white;
+    border-left: solid;
+    border-color: #69b3a2;
+}
+.tocify-extend-page {
+  display: none;
+}
+
+
+/* ------ This is just to fix the bug on Safari where table of content is on top of content */
+.toc-content {
+  margin-left: 230px
+}
+
+
+
+
+/* ---------- Button ----------------- */
 .btn {
     border-width: 0 0px 0px 0px;
     font-weight: normal;
     text-transform: ;
+    color: #69b3a2;
 }
 .btn-default {
-    color: #2ecc71;
+    color: #69b3a2;
     background-color: #ffffff;
     border-color: #ffffff;
 }
 
+.nav-pills > li.active > a, .nav-pills > li.active > a:hover, .nav-pills > li.active > a:focus {
+    background-color: #69b3a2;
+}
 
 
 
-
+/* ---------- Add logo on top of table of content ----------------- */
 
 div.tocify{
     margin-top:80px !important;
@@ -48,4 +96,3 @@ div.tocify{
     padding-top: 80px !important;
     background-repeat: no-repeat;
 }
-
