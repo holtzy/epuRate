@@ -19,7 +19,7 @@ output:
 
 <br><br>
 
-> Let's start with a short introduction. Explain briefly what this document is going to talk about. May be add a [useful link](www.r-graph-gallery.com) relative to this project.
+> Let's start with a short introduction. Explain briefly what this document is going to talk about. May be add a [useful link](https://github.com/holtzy/epuRate) relative to this project.
 
 
 # Get the data
