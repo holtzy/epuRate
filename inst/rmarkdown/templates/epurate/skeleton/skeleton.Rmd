@@ -7,6 +7,7 @@ linkedin: "yan-holtz-2477534a"
 twitter: "r_graph_gallery"
 github: "holtzy"
 home: "www.yan-holtz.com"
+# !!! You need to provide a logo image here !!! Or just delete the field for no logo
 logo: "logo_gallery.png"
 output:
   epuRate::epurate:
