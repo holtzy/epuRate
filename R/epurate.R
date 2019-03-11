@@ -17,6 +17,7 @@ epurate <- function(toc = TRUE, code_folding = "hide", number_sections=TRUE) {
                                number_sections= number_sections,
                                df_print = "paged",
                                code_folding = code_folding,
+                               self_contained = self_contained
                             )
 }
 
@@ -38,7 +39,8 @@ PCTG <- function(toc = TRUE, code_folding = "hide", number_sections=TRUE) {
                                number_sections= number_sections,
                                df_print = "paged",
                                code_folding = code_folding,
-                            )
+                              self_contained = self_contained
+                              )
 }
 
 
@@ -61,7 +63,8 @@ UQ <- function(toc = TRUE, code_folding = "hide", number_sections=TRUE) {
                                number_sections= number_sections,
                                df_print = "paged",
                                code_folding = code_folding,
-                            )
+                               self_contained = self_contained
+                              )
 }
 
 
@@ -82,5 +85,6 @@ QIMR <- function(toc = TRUE, code_folding = "hide", number_sections=TRUE) {
                                number_sections= number_sections,
                                df_print = "paged",
                                code_folding = code_folding,
+                               self_contained = self_contained
                             )
 }
