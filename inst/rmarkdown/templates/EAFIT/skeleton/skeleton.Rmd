@@ -1,0 +1,168 @@
+---
+title: "EAFIT template"
+author: "[Camilo Garcia](https://github.com/camilogarciabotero)"
+date: "`r format(Sys.time(), '%d %B %Y')`"
+mail: "cgarci39@eafit.edu.co"
+twitter: "gaspardelanoche"
+orcid: "0000-0002-0426-7007"
+github: "camilogarciabotero"
+home: "camilogarciabotero.github.io"
+scholar: "OJ6452UAAAAJ&hl"
+researchgate: "Camilo_Garcia-Botero"
+logo: "logo-eafit.pdf"
+output:
+  epuRate::EAFIT:
+   toc: TRUE
+   number_sections: FALSE
+   code_folding: "show"
+bibliography: bibliography.bib
+link-citations: yes
+---
+
+# Chunk options and allow refreshing zsh profile in engines 
+
+```{r options, include=FALSE}
+knitr::opts_chunk$set(cache=TRUE,  comment= " ")
+
+#other options: engine.opts = list(zsh="-i")) or engine.opts = list(zsh="source ~/.zprofile"))#, engine.path = list()) 
+
+#str(knitr::opts_chunk$get())
+
+#knitr::write_bib() nice function to get packages format citation on .bibtex format
+```
+
+```{zsh, eval=FALSE, engine.opts="-i"}
+conda list    # If conda is installed, python engine could be settled 
+```
+
+# Libraries
+
+```{r, message=FALSE, warning=FALSE, include=FALSE}
+
+library(tidyverse)
+library(rmarkdown)    # You need this library to run this template.
+library(epuRate)      # Install with devtools: install_github("holtzy/epuRate", force=TRUE)
+library(citr)         # Allows citations and the .bibtex file 
+library(icon)         # Inset icons from many sources in markdown remotes::install_github("mitchelloharawild/icon") download_fontawesome() is one of the greatest icon library
+```
+
+
+# Using HTML 
+
+Explaining packages and code breakdown
+
+## Libraries
+<style>
+div.red { background-color:#FFE8E8; border-radius: 5px; padding: 30px; } 
+div.red p { font-family: Verdana, Geneva, sans-serif; }
+</style>
+<div class = "red">
+<p style="text-align:right"> `r icon::fontawesome("r-project")` </p>
+**Libraries**
+  
+  `tidyverse`: data transformations and beautiful plots [@Wickham2019].<br>
+  `rmarkdown`: all the structure of the report relies on this library [@R-rmarkdown].<br>
+  `bookdown`: allows the bibliography on the YAML header of this Rmarkdown doc [@bookdown2016; @R-bookdown].<br>
+  `epuRate`: the elegant theme of the report [@R-epuRate].<br>
+  `knitr`: all parts integration to render the output reporducible report [@knitr2014; @knitr2015; @R-knitr].<br>
+  `citr`: addin for easyly find citations in the .bib file and insert in the correct format [@R-citr].<br>
+
+</div>
+<br>
+
+
+## Code breakdown
+
+```{zsh, eval=FALSE, engine.opts="-i" }
+conda activate ngd # Activation of a the previously settled conda env 
+
+ncbi-genome-download -n -s genbank -F genbank -l complete -g Bacillus -o ~/Desktop/Gtotree-last-p 4 bacteria > Phylogenomics/Bacillus-acc.txt 
+```
+
+<style>
+div.blue { background-color:#EBF0FF; border-radius: 5px; padding: 30px; } 
+div.blue p {font-family: Verdana, Geneva, sans-serif; }
+</style>
+<div class = "blue">
+
+<p style="text-align:right"> `r icon::fontawesome("terminal")` </p>
+**Code breakdown**
+
+`GToTree`: the main phylogenomic pipeline <br><br>
+
+  `-a`: includes a single column file with the genome-assembly/refseq accession numbers <br>
+  `-f`: a single column file with the local-path to your strains genomes (FASTAS or GBK) <br>
+  `-H`: this option selects a HMMER profile file corresponding to Firmicutes in this example <br>
+  `-t`: using `Taxonkit` a dependency that allows change the taxa names <br>
+  `-L`: complete the names with species and strains names <br>
+  `-n`: number of threads <br>
+  `-j`: number of parallel jobs <br>
+
+A more detailed explanation of `GToTree` see this tutorial about [phylogenomics](https://astrobiomike.github.io/genomics/phylogenomics)
+
+</div>
+
+# Data input
+
+```{r}
+# Show it:
+mtcars %>% head(5)
+```
+
+This file has `r nrow(mtcars)` lines and `r ncol(mtcars)` columns. It is ready to be analysed.
+
+# Basic analysis
+
+Let's start with a basic version of a circular representation of the data (this is the same as the epurate fist analysis)
+
+```{r, warning=FALSE, fig.align='center' }
+# Create dataset
+data=data.frame(
+  individual=paste( "Mister ", seq(1,60), sep=""),
+  value=sample( seq(10,100), 60, replace=T)
+)
+
+# Set a number of 'empty bar'
+empty_bar=10
+
+# Add lines to the initial dataset
+to_add = matrix(NA, empty_bar, ncol(data))
+colnames(to_add) = colnames(data)
+data=rbind(data, to_add)
+data$id=seq(1, nrow(data))
+
+# Get the name and the y position of each label
+label_data=data
+number_of_bar=nrow(label_data)
+angle= 90 - 360 * (label_data$id-0.5) /number_of_bar     # I substract 0.5 because the letter must have the angle of the center of the bars. Not extreme right(1) or extreme left (0)
+label_data$hjust<-ifelse( angle < -90, 1, 0)
+label_data$angle<-ifelse(angle < -90, angle+180, angle)
+
+# Make the plot
+p = ggplot(data, aes(x=as.factor(id), y=value)) +       # Note that id is a factor. If x is numeric, there is some space between the first bar
+  geom_bar(stat="identity", fill="#69b3a2") +
+  ylim(-100,120) +
+  theme_minimal() +
+  theme(
+    axis.text = element_blank(),
+    axis.title = element_blank(),
+    panel.grid = element_blank(),
+    plot.margin = unit(rep(-1,4), "cm")
+  ) +
+  coord_polar(start = 0) +
+  geom_text(data=label_data, aes(x=id, y=value+10, label=individual, hjust=hjust), color="black", fontface="bold",alpha=0.6, size=2.5, angle= label_data$angle, inherit.aes = FALSE )
+
+p
+```
+
+
+# Conclusion
+
+Read more about the origin of this template [here](https://github.com/holtzy/epuRate).
+
+Learn how to custom your R Markdown document [here](https://holtzy.github.io/Pimp-my-rmd/).
+
+***
+# References 
+
+(when using citr references will be always at the end)
