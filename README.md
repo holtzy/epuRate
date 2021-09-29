@@ -20,6 +20,7 @@ Note that a specific version is available for:
 - members of [PCTG](https://holtzy.github.io/epuRate/pctg.html)
 - members of [QIMR](https://holtzy.github.io/epuRate/qimr.html)
 - members of [ARAMIS](https://holtzy.github.io/epuRate/aramis.html)
+- members of [KCL](https://holtzy.github.io/epuRate/kcl.html)
 
 
 <br><br><br>
