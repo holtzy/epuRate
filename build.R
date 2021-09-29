@@ -8,7 +8,6 @@ remove.packages("epuRate")
 # Install with devtools
 library(devtools)
 devtools::install("../epuRate")
-#devtools::install_github("baptisteCD/epuRate", force=TRUE)
 
 # Load to check it is all good
 library(epuRate)
