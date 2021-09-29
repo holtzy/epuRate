@@ -18,6 +18,7 @@ output:
 # You need these libraries to run this template:
 library(rmarkdown)    # install.packages("rmarkdown") 
 library(epuRate)      # devtools::install_github("holtzy/epuRate", force=TRUE)
+   
 ```
 
 <br><br><br><br>

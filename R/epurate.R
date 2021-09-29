@@ -85,8 +85,6 @@ QIMR <- function(toc = TRUE, code_folding = "hide", number_sections=TRUE) {
                             )
 }
 
-
-
 # Features of ARAMIS Template
 ARAMIS <- function(toc = TRUE, code_folding = "hide", number_sections=TRUE) {
 
