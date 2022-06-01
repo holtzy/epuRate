@@ -21,6 +21,7 @@ Note that a specific version is available for:
 - members of [QIMR](https://holtzy.github.io/epuRate/qimr.html)
 - members of [ARAMIS](https://holtzy.github.io/epuRate/aramis.html)
 - members of [KCL](https://holtzy.github.io/epuRate/kcl.html)
+- members of [ISGW](https://holtzy.github.io/epuRate/isgw.html)
 
 
 <br><br><br>
@@ -43,4 +44,4 @@ library(epuRate)
 <br><br><br>
 Acknowledgment
 --------
-Thanks to [Florian Rohart](http://florian.rohart.free.fr/Professional_page/Home.html) for his help on the PCTG template. Thanks to [Rstudio](https://www.rstudio.com) and its team for developing so many awesome tools.
+Thanks to [Florian Rohart](http://florian.rohart.free.fr/Professional_page/Home.html) for his help on the PCTG template and [Baptiste Couvy-Duchesne](https://github.com/baptisteCD) for extending the template to ARAMIS, KCL and ISGW. Thanks to [Rstudio](https://www.rstudio.com) and its team for developing so many awesome tools.
