@@ -1,6 +1,6 @@
 h1, .h1, h2, .h2, h3, .h3 {
     margin-top: 84px;
-    color: #CBB767
+    color: #b6a45e
 }
 
 h1 {
@@ -24,10 +24,10 @@ pre {
 
 /* ---------- Links ----------------- */
 a {
-  color: #CBB767;
+  color: #b6a45e;
 }
 a:hover {
-  color: #CBB767;
+  color: #b6a45e;
 }
 
 
@@ -45,16 +45,16 @@ a:hover {
   border-radius: 0px;
 }
 .list-group-item.active {
-    color: #CBB767;
+    color: #b6a45e;
     background-color: white;
     border-left: solid;
-    border-color: #CBB767;
+    border-color: #b6a45e;
 }
 .list-group-item:hover {
-    color: #CBB767;
+    color: #b6a45e;
     background-color: white;
     border-left: solid;
-    border-color: #CBB767;
+    border-color: #b6a45e;
 }
 .tocify-extend-page {
   display: none;
@@ -74,14 +74,14 @@ a:hover {
     border-width: 0 0px 0px 0px;
     font-weight: normal;
     text-transform: ;
-    color: #CBB767;
+    color: #b6a45e;
 }
 .btn-default {
-    color: #CBB767;
+    color: #b6a45e;
     background-color: #ffffff;
     border-color: #ffffff;
 }
 
 .nav-pills > li.active > a, .nav-pills > li.active > a:hover, .nav-pills > li.active > a:focus {
-    background-color: #CBB767;
+    background-color: #b6a45e;
 }
