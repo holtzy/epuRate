@@ -5,9 +5,9 @@
 # Remove previous version just in Case
 remove.packages("epuRate")
 
-# Install with devtools
-library(devtools)
-devtools::install("../epuRate")
+# Install with devtools (LOCAL)
+#library(devtools)
+#devtools::install("../epuRate")
 
 # Install from github
 library(devtools)
