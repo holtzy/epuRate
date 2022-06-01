@@ -56,9 +56,9 @@ Personalised version
 - In the **epuRate/R/epurate.R** add an instance for your new template and select the default options of the RMarkdown
 - Commit and push the changes into your forked version in Github
 - You should now be able to use your template by running **install_github("MYGITHUBUSERNAME/epuRate")**
- \\ 
+
  
-- Alternatively email me or send me a message on github with your **logo file**, the **HEX color code**
+--> Alternatively email me or send me a message on github with your **logo file**, the **HEX color code**
  and the **Name of your wished template**, and I will see what I can do.
  
 <br><br><br>
