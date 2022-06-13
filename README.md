@@ -49,7 +49,7 @@ Personalised version
 - Modify the template name in the file **template.yaml**
 - Replace the logo file (jpg, png) in **/epuRate/inst/rmarkdown/templates/MYNEWTEMPLATE/resources/**
 - Add path to this logo file  at line 382 of the **template_MYNEWTEMPLATE.html** file
-- The path should correspond to your github link to the logo so typically: **https://github.com/MYGITHUBUSERNAME/epuRate/blob/master/inst/rmarkdown/templates/MYNEWTEMPLATE/resources/MYNEWTEMPLATE.png**
+- The path should correspond to your github link to the logo so typically: **https://github.com/MYGITHUBUSERNAME/epuRate/raw/master/inst/rmarkdown/templates/MYNEWTEMPLATE/resources/MYNEWTEMPLATE.png**
 - Choose the personalised color that suits your logo and add the HEX code to the **style.css** file
 - I tend to use a color from the logo, which I obtain using free online tool(s)
 - You can choose a palette of colours or a single colour for the titles, links, TOCs and buttons
